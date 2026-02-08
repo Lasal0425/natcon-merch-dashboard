@@ -1,11 +1,11 @@
 import { Pool } from 'pg';
 
 const pool = new Pool({
-  host: "ap-southeast-1.89cd8caa-b155-464d-b634-87d88152a35d.aws.yugabyte.cloud",
-  port: 5433,
-  database: "yugabyte",
-  user: "admin",
-  password: "OvRgaEOzW72hr5k7VzeiXqYgtM_tIP",
+  host: process.env.YUGABYTE_HOST,
+  port: parseInt(process.env.YUGABYTE_PORT || '5433'),
+  database: process.env.YUGABYTE_DATABASE,
+  user: process.env.YUGABYTE_USER,
+  password: process.env.YUGABYTE_PASSWORD,
   ssl: { rejectUnauthorized: false },
 });
 

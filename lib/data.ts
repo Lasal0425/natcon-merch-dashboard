@@ -17,7 +17,7 @@ export async function fetchOrders() {
         })) as Order[];
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to fetch orders.');
+        return [];
     }
 }
 
@@ -36,7 +36,7 @@ export async function fetchOrderItems(orderId: string) {
         })) as OrderItem[];
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to fetch order items.');
+        return [];
     }
 }
 
@@ -54,5 +54,41 @@ export async function fetchMerchStats() {
     } catch (error) {
         console.error('Error fetching stats:', error);
         return { totalSales: 0, totalOrders: 0, merchPacks: 0 };
+    }
+}
+
+export async function fetchEntityStats() {
+    try {
+        const result = await pool.query(`
+            SELECT entity, COUNT(*) as count 
+            FROM orders 
+            GROUP BY entity 
+            ORDER BY count DESC
+        `);
+        return result.rows.map(row => ({
+            name: row.entity,
+            value: Number(row.count)
+        }));
+    } catch (error) {
+        console.error('Error fetching entity stats:', error);
+        return [];
+    }
+}
+
+export async function fetchItemSales() {
+    try {
+        const result = await pool.query(`
+            SELECT item_name, SUM(quantity) as count 
+            FROM order_items 
+            GROUP BY item_name 
+            ORDER BY count DESC
+        `);
+        return result.rows.map(row => ({
+            name: row.item_name,
+            value: Number(row.count)
+        }));
+    } catch (error) {
+        console.error('Error fetching item sales:', error);
+        return [];
     }
 }

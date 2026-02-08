@@ -1,7 +1,9 @@
-import { fetchOrders, fetchMerchStats } from '@/lib/data';
+import { fetchOrders, fetchMerchStats, fetchEntityStats, fetchItemSales } from '@/lib/data';
 import OrderTable from '@/components/OrderTable';
 import StatCard from '@/components/StatCard';
-import { ShoppingBag, Users, DollarSign, Package } from 'lucide-react';
+import DistributionPieChart from '@/components/DistributionPieChart';
+import MerchBarChart from '@/components/MerchBarChart';
+import { ShoppingBag, Users, DollarSign, Package, PieChart } from 'lucide-react';
 import { Suspense } from 'react';
 
 export const dynamic = 'force-dynamic';
@@ -9,6 +11,8 @@ export const dynamic = 'force-dynamic';
 export default async function Dashboard() {
   const orders = await fetchOrders();
   const stats = await fetchMerchStats();
+  const entityStats = await fetchEntityStats();
+  const itemStats = await fetchItemSales();
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100 font-sans selection:bg-blue-500/30">
@@ -48,7 +52,7 @@ export default async function Dashboard() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCard
             title="Total Revenue"
             value={`$${Number(stats.totalSales).toLocaleString()}`}
@@ -61,19 +65,15 @@ export default async function Dashboard() {
             icon={ShoppingBag}
             color="blue"
           />
-          <StatCard
-            title="Pack Orders"
-            value={stats.merchPacks}
-            icon={Package}
-            color="purple"
+        </div>
+
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <DistributionPieChart
+            title="Sales by Entity"
+            data={entityStats}
           />
-          <StatCard
-            title="Active Users"
-            value="1,204"
-            icon={Users}
-            color="orange"
-            trend="12"
-          />
+          <MerchBarChart data={itemStats} />
         </div>
 
         {/* Recent Orders Section */}

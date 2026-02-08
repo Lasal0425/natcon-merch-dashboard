@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { Order } from '@/lib/types';
 import { format } from 'date-fns';
 import { CheckCircle, XCircle, ChevronDown, ChevronUp, Search, Info } from 'lucide-react';
@@ -97,7 +97,7 @@ export default function OrderTable({ orders }: OrderTableProps) {
                     </thead>
                     <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
                         {filteredOrders.map((order) => (
-                            <>
+                            <Fragment key={order.id}>
                                 <tr
                                     key={order.id}
                                     className={`bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors cursor-pointer ${expandedOrderId === order.id ? 'bg-zinc-50 dark:bg-zinc-800/50' : ''}`}
@@ -177,11 +177,13 @@ export default function OrderTable({ orders }: OrderTableProps) {
                                                         </div>
                                                     </div>
                                                 </div>
+
+
                                             </div>
                                         </td>
                                     </tr>
                                 )}
-                            </>
+                            </Fragment>
                         ))}
                     </tbody>
                 </table>
@@ -191,6 +193,6 @@ export default function OrderTable({ orders }: OrderTableProps) {
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     );
 }
