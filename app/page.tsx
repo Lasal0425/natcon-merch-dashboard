@@ -4,10 +4,9 @@ import StatCard from '@/components/StatCard';
 import DistributionPieChart from '@/components/DistributionPieChart';
 import MerchBarChart from '@/components/MerchBarChart';
 import { ShoppingBag, Users, DollarSign, Package, PieChart } from 'lucide-react';
-import { Suspense } from 'react';
-import DeleteAllButton from '@/components/DeleteAllButton';
 
 export const dynamic = 'force-dynamic';
+
 
 export default async function Dashboard() {
   const orders = await fetchOrders();
@@ -86,9 +85,6 @@ export default async function Dashboard() {
             <OrderTable orders={orders} />
           </Suspense>
         </div>
-
-        {/* Danger Zone */}
-        <DeleteAllButton />
       </main>
     </div>
   );
