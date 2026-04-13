@@ -92,3 +92,39 @@ export async function fetchItemSales() {
         return [];
     }
 }
+
+export async function fetchTshirtSizeDistribution() {
+    try {
+        const result = await pool.query(`
+            SELECT 
+                COALESCE(
+                    NULLIF(item_size, ''),
+                    NULLIF(tshirt_size, ''),
+                    substring(item_name from '\\(([^)]+)\\)')
+                ) as size,
+                SUM(quantity) as count
+            FROM order_items
+            WHERE 
+                COALESCE(
+                    NULLIF(item_size, ''),
+                    NULLIF(tshirt_size, ''),
+                    substring(item_name from '\\(([^)]+)\\)')
+                ) IS NOT NULL
+            GROUP BY size
+        `);
+        const sizeOrder = ['2XS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
+        return result.rows
+            .map(row => ({
+                name: row.size,
+                value: Number(row.count)
+            }))
+            .sort((a, b) => {
+                const indexA = sizeOrder.indexOf(a.name.toUpperCase());
+                const indexB = sizeOrder.indexOf(b.name.toUpperCase());
+                return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+            });
+    } catch (error) {
+        console.error('Error fetching tshirt size distribution:', error);
+        return [];
+    }
+}

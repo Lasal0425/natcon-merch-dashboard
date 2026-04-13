@@ -1,4 +1,4 @@
-import { fetchOrders, fetchMerchStats, fetchEntityStats, fetchItemSales } from '@/lib/data';
+import { fetchOrders, fetchMerchStats, fetchEntityStats, fetchItemSales, fetchTshirtSizeDistribution } from '@/lib/data';
 import OrderTable from '@/components/OrderTable';
 import StatCard from '@/components/StatCard';
 import DistributionPieChart from '@/components/DistributionPieChart';
@@ -14,6 +14,7 @@ export default async function Dashboard() {
   const stats = await fetchMerchStats();
   const entityStats = await fetchEntityStats();
   const itemStats = await fetchItemSales();
+  const sizeStats = await fetchTshirtSizeDistribution();
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100 font-sans selection:bg-blue-500/30">
@@ -75,6 +76,14 @@ export default async function Dashboard() {
             data={entityStats}
           />
           <MerchBarChart data={itemStats} />
+        </div>
+
+        {/* T-Shirt Size Distribution */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <MerchBarChart
+            title="T-Shirt Size Distribution"
+            data={sizeStats}
+          />
         </div>
 
         {/* Recent Orders Section */}

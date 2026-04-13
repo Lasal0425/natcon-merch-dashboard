@@ -4,13 +4,14 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 
 interface MerchBarChartProps {
     data: { name: string; value: number }[];
+    title?: string;
 }
 
-export default function MerchBarChart({ data }: MerchBarChartProps) {
+export default function MerchBarChart({ data, title = 'Sales by Merchandise' }: MerchBarChartProps) {
     if (!data || data.length === 0) {
         return (
             <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-6 flex flex-col h-[400px]">
-                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-6">Sales by Merchandise</h3>
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-6">{title}</h3>
                 <div className="flex-1 flex items-center justify-center text-zinc-500 dark:text-zinc-400">
                     No data available
                 </div>
@@ -20,7 +21,7 @@ export default function MerchBarChart({ data }: MerchBarChartProps) {
 
     return (
         <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-6 flex flex-col h-[400px]">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-6">Sales by Merchandise</h3>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-6">{title}</h3>
             <div className="flex-1 min-h-0">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart
