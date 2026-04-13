@@ -3,6 +3,7 @@ import OrderTable from '@/components/OrderTable';
 import StatCard from '@/components/StatCard';
 import DistributionPieChart from '@/components/DistributionPieChart';
 import MerchBarChart from '@/components/MerchBarChart';
+import { Suspense } from 'react';
 import { ShoppingBag, Users, DollarSign, Package, PieChart } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
