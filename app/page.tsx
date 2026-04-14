@@ -3,6 +3,7 @@ import OrderTable from '@/components/OrderTable';
 import StatCard from '@/components/StatCard';
 import DistributionPieChart from '@/components/DistributionPieChart';
 import MerchBarChart from '@/components/MerchBarChart';
+import ExportButton from '@/components/ExportButton';
 import { Suspense } from 'react';
 import { ShoppingBag, Users, DollarSign, Package, PieChart } from 'lucide-react';
 
@@ -90,6 +91,7 @@ export default async function Dashboard() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Recent Transactions</h3>
+            <ExportButton />
           </div>
           <Suspense fallback={<div className="h-64 bg-zinc-100 dark:bg-zinc-900 animate-pulse rounded-xl" />}>
             <OrderTable orders={orders} />
